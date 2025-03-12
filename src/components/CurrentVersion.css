@@ -1,0 +1,28 @@
+.current-version {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 1rem;
+  }
+  
+  .version-badge {
+    display: inline-block;
+    background-color: #3498db;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .not-set {
+    color: #e74c3c;
+    border: 1px dashed #e74c3c;
+    border-radius: 6px;
+    padding: 1rem;
+  }
+  
+  .loading {
+    color: #7f8c8d;
+    text-align: center;
+    padding: 1rem;
+  }
