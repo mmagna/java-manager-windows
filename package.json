@@ -1,7 +1,7 @@
 {
   "name": "java-manager-vite",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,11 +13,34 @@
   },
   "main": "electron/main.cjs",
   "build": {
-    "appId": "com.example.java-version-manager",
+    "appId": "com.tudominio.java-manager",
     "productName": "Java Version Manager",
+    "files": [
+      "dist/**/*",
+      "electron/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets",
+      "output": "release"
+    },
     "win": {
-      "target": "nsis",
-      "requestedExecutionLevel": "requireAdministrator"
+      "target": [
+        "nsis",
+        "portable",
+        "msi"
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    },
+    "portable": {
+      "artifactName": "${productName}-portable-${version}.${ext}"
+    },
+    "msi": {
+      "artifactName": "${productName}-installer-${version}.${ext}"
     }
   },
   "dependencies": {
