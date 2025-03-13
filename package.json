@@ -6,7 +6,7 @@
     "email": "moisesmagna@gmail.com"
   },
   "private": true,
-  "version": "1.0.3",
+  "version": "1.0.6",
   "type": "commonjs",
   "scripts": {
     "dev": "vite",
