@@ -38,7 +38,7 @@
         "portable",
         "zip"
       ],
-      "icon": "assets/icon.ico"
+      "icon": "assets/cupcontrol.ico"
     },
     "nsis": {
       "oneClick": false,
