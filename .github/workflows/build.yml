@@ -29,7 +29,7 @@ jobs:
         run: npm run electron:build
       
       - name: List release files
-        run: dir release /s
+        run: Get-ChildItem -Path release -Recurse
       
       - name: Create Release
         uses: softprops/action-gh-release@v1
@@ -37,8 +37,6 @@ jobs:
         with:
           draft: false
           prerelease: false
-          files: |
-            release/*.exe
-            release/*.zip
+          files: release/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
