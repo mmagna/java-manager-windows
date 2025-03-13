@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write  # Esto es crucial para permitir la creación de releases
+
 jobs:
   build:
     runs-on: windows-latest
@@ -24,8 +27,9 @@ jobs:
       
       - name: Build Electron app
         run: npm run electron:build
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      
+      - name: List release files
+        run: dir release /s
       
       - name: Create Release
         uses: softprops/action-gh-release@v1
@@ -34,8 +38,7 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            release/**/*.exe
-            release/**/*.msi
-            release/**/*.zip
+            release/*.exe
+            release/*.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
