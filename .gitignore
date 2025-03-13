@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Build output
+/dist
+/release
+/build
+
+# Electron-builder output
+/dist_electron

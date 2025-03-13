@@ -20,8 +20,8 @@ function createWindow() {
 
     // Cargar URL de desarrollo o archivo HTML de producción
     const startURL = isDev
-      ? 'http://localhost:5173'  // Puerto por defecto de Vite
-      : `file://${path.join(__dirname, '../dist/index.html')}`;
+    ? 'http://localhost:5173'  // Puerto por defecto de Vite
+    : `file://${path.join(__dirname, '../dist/index.html')}`;
     
     console.log('Intentando cargar URL:', startURL);
     mainWindow.loadURL(startURL);

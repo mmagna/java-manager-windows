@@ -1,19 +1,25 @@
 {
   "name": "java-manager-vite",
+  "description": "Gestor de versiones de Java para Windows",
+  "author": {
+    "name": "Moises Magna",
+    "email": "moisesmagna@gmail.com"
+  },
   "private": true,
-  "version": "1.0.1",
-  "type": "module",
+  "version": "1.0.2",
+  "type": "commonjs",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "electron:dev": "concurrently -k \"cross-env BROWSER=none npm run dev\" \"wait-on tcp:5173 && electron electron/main.cjs\"",
-    "electron:build": "npm run build && electron-builder",
-    "electron:preview": "electron electron/main.js"
+    "electron:build": "vite build && electron-builder",
+    "electron:preview": "electron electron/main.cjs",
+    "release": "vite build && electron-builder --publish always"
   },
   "main": "electron/main.cjs",
   "build": {
-    "appId": "com.tudominio.java-manager",
+    "appId": "com.moisesmagna.java-manager",
     "productName": "Java Version Manager",
     "files": [
       "dist/**/*",
@@ -23,24 +29,29 @@
       "buildResources": "assets",
       "output": "release"
     },
+    "extraMetadata": {
+      "main": "electron/main.cjs"
+    },
     "win": {
       "target": [
         "nsis",
         "portable",
-        "msi"
+        "zip"
       ],
       "icon": "assets/icon.ico"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true
+      "createDesktopShortcut": true,
+      "artifactName": "${productName}-setup-${version}.${ext}"
     },
     "portable": {
       "artifactName": "${productName}-portable-${version}.${ext}"
     },
-    "msi": {
-      "artifactName": "${productName}-installer-${version}.${ext}"
+    "publish": {
+      "provider": "github",
+      "releaseType": "release"
     }
   },
   "dependencies": {
@@ -58,6 +69,7 @@
     "electron": "^35.0.1",
     "electron-builder": "^25.1.8",
     "electron-is-dev": "^3.0.1",
+    "electron-packager": "^17.1.2",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
