@@ -1,13 +1,113 @@
-/* Agrega esto a InstallVersion.css */
+/* InstallVersion.css - Updated styles */
+.install-version {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 1rem;
+  color: #666;
+}
+
+.empty-list {
+  padding: 1rem;
+  text-align: center;
+  background-color: #fff3f3;
+  border: 1px solid #ffccd0;
+  border-radius: 4px;
+  color: #d32f2f;
+  margin-top: 1rem;
+}
+
+/* Select container and select styling */
+.select-container {
+  position: relative;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.version-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #cfd8dc;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  appearance: none;
+  color: #37474f;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Custom dropdown arrow */
+.select-container::after {
+  content: "";
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #607d8b;
+  pointer-events: none;
+}
+
+.version-select:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.25);
+}
+
+.version-select:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.version-select option {
+  padding: 10px;
+}
+
+/* Install button */
+.install-btn {
+  display: block;
+  width: 100%;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  color: white;
+  background-color: #3498db;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.install-btn:hover {
+  background-color: #2980b9;
+}
+
+.install-btn:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+/* Install status */
 .install-status {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 1rem;
-  padding: 1rem;
+  padding: 1.5rem;
   background-color: #f8f9fa;
   border-radius: 4px;
   border: 1px solid #e0e0e0;
+  text-align: center;
 }
 
 .spinner {
@@ -17,7 +117,7 @@
   border-radius: 50%;
   border-left-color: #3498db;
   animation: spin 1s linear infinite;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 @keyframes spin {
