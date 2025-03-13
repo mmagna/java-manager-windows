@@ -6,7 +6,7 @@
     "email": "moisesmagna@gmail.com"
   },
   "private": true,
-  "version": "1.0.6",
+  "version": "1.0.7",
   "type": "commonjs",
   "scripts": {
     "dev": "vite",
@@ -68,7 +68,7 @@
     "cross-env": "^7.0.3",
     "electron": "^35.0.1",
     "electron-builder": "^25.1.8",
-    "electron-is-dev": "^3.0.1",
+    "electron-is-dev": "null",
     "electron-packager": "^17.1.2",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",

@@ -1,7 +1,8 @@
 // electron/main.cjs
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-const isDev = require('electron-is-dev');
+// Reemplazamos electron-is-dev con una comprobación manual
+const isDev = process.env.NODE_ENV === 'development' || !app.isPackaged;
 const javaManager = require('./javaManager.cjs');
 
 let mainWindow;
@@ -20,8 +21,8 @@ function createWindow() {
 
     // Cargar URL de desarrollo o archivo HTML de producción
     const startURL = isDev
-    ? 'http://localhost:5173'  // Puerto por defecto de Vite
-    : `file://${path.join(__dirname, '../dist/index.html')}`;
+      ? 'http://localhost:5173'  // Puerto por defecto de Vite
+      : `file://${path.join(__dirname, '../dist/index.html')}`;
     
     console.log('Intentando cargar URL:', startURL);
     mainWindow.loadURL(startURL);
