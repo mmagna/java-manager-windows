@@ -8,5 +8,12 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: true,
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // Si necesitas opciones adicionales para sass
+      }
+    }
   }
 })

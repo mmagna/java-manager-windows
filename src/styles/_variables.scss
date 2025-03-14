@@ -1,0 +1,47 @@
+// Paleta de colores
+$primary: #2c3e50; // Azul oscuro profesional
+$primary-light: #34495e; // Variante más clara
+$accent: #3498db; // Azul para acciones y destacados
+$accent-hover: #2980b9; // Azul más oscuro para hover
+$success: #27ae60; // Verde para éxito
+$danger: #e74c3c; // Rojo para alertas/errores
+$warning: #f39c12; // Naranja para advertencias
+$background: #f9fafb; // Fondo general gris muy claro
+$card-bg: #ffffff; // Fondo de tarjetas
+$text-primary: #2c3e50; // Color principal de texto
+$text-secondary: #7f8c8d; // Color secundario de texto
+$text-light: #95a5a6; // Color de texto deshabilitado
+$border-color: #ecf0f1; // Color de bordes
+
+// Tipografía
+$font-family-base: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+  Roboto, Oxygen, Ubuntu, sans-serif;
+$font-size-base: 1rem;
+$font-size-sm: 0.875rem;
+$font-size-lg: 1.125rem;
+$font-size-xl: 1.25rem;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 600;
+$line-height-base: 1.5;
+
+// Espaciado
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+$spacing-xxl: 3rem;
+
+// Sombras
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.05);
+$shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.05);
+
+// Bordes
+$border-radius-sm: 4px;
+$border-radius-md: 6px;
+$border-radius-lg: 8px;
+
+// Transiciones
+$transition-base: all 0.2s ease;

@@ -1,0 +1,69 @@
+// Importa primero la fuente
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+// Importa variables y mixins
+@import "variables";
+@import "mixins";
+
+// Importa reset
+@import "reset";
+
+// Importa componentes
+@import "components/buttons";
+@import "components/select";
+@import "components/cards";
+@import "components/status";
+
+// Estilos específicos de la aplicación
+.app-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: $spacing-xl;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: $spacing-xl;
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid $border-color;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h1 {
+    color: $primary;
+    margin: 0 0 $spacing-md 0;
+  }
+}
+
+.app-content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+.version-actions {
+  display: flex;
+  gap: $spacing-sm;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .app-container {
+    padding: $spacing-md;
+  }
+
+  .version-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .version-actions {
+    margin-top: $spacing-md;
+    width: 100%;
+
+    button {
+      flex: 1;
+    }
+  }
+}

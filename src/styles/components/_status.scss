@@ -1,0 +1,93 @@
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $spacing-xl;
+  color: $text-secondary;
+  text-align: center;
+
+  .spinner {
+    @include spinner(36px, 4px, $accent);
+    margin-bottom: $spacing-md;
+  }
+
+  p {
+    margin-top: $spacing-md;
+    color: $text-secondary;
+  }
+}
+
+.empty-list {
+  padding: $spacing-lg;
+  text-align: center;
+  background-color: rgba($danger, 0.05);
+  border: 1px solid rgba($danger, 0.2);
+  border-radius: $border-radius-md;
+  color: $danger;
+  margin-top: $spacing-md;
+
+  button {
+    margin-top: $spacing-md;
+  }
+}
+
+.install-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: $spacing-md;
+  padding: $spacing-lg;
+  background-color: $background;
+  border-radius: $border-radius-md;
+  border: 1px solid $border-color;
+  text-align: center;
+
+  .spinner {
+    @include spinner(36px, 4px, $accent);
+    margin-bottom: $spacing-md;
+  }
+
+  p {
+    color: $text-primary;
+  }
+}
+
+.notification {
+  position: fixed;
+  top: $spacing-lg;
+  right: $spacing-lg;
+  padding: $spacing-md;
+  border-radius: $border-radius-sm;
+  color: white;
+  box-shadow: $shadow-md;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in;
+  max-width: 350px;
+
+  &.success {
+    background-color: $success;
+  }
+
+  &.error {
+    background-color: $danger;
+  }
+
+  &.info {
+    background-color: $accent;
+  }
+
+  &.warning {
+    background-color: $warning;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

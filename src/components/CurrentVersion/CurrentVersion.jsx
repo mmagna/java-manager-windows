@@ -1,5 +1,4 @@
 import React from 'react';
-import './CurrentVersion.css';
 
 function CurrentVersion({ currentVersion, loading }) {
   if (loading) {

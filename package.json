@@ -6,7 +6,7 @@
     "email": "moisesmagna@gmail.com"
   },
   "private": true,
-  "version": "1.0.7",
+  "version": "1.1.0",
   "type": "commonjs",
   "scripts": {
     "dev": "vite",
@@ -74,6 +74,7 @@
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
+    "sass": "^1.85.1",
     "vite": "^6.2.0",
     "wait-on": "^8.0.3"
   }
