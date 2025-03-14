@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import CurrentVersion from './components/CurrentVersion'
-import JavaVersionList from './components/JavaVersionList'
-import InstallVersion from './components/InstallVersion'
+import CurrentVersion from './components/CurrentVersion/CurrentVersion'
+import JavaVersionList from './components/JavaVersionList/JavaVersionList'
+import InstallVersion from './components/InstallVersion/InstallVersion'
 
 function App() {
   const [installedVersions, setInstalledVersions] = useState([]);
@@ -169,7 +169,7 @@ function App() {
   return (
     <div className="app-container">
       <header className="app-header">
-        <h1>Gestor de Versiones de Java</h1>
+        <h1>Cup Control</h1>
       </header>
 
       {notification && (
