@@ -34,6 +34,14 @@ jobs:
       - name: List files in release directory
         run: Get-ChildItem -Path release -Recurse | Format-Table Name, Length
       
+      # Nuevos pasos para Microsoft Store
+      - name: Install electron-windows-store
+        run: npm install -g electron-windows-store
+      
+      - name: Create Windows Store Package
+        run: |
+          electron-windows-store --input-directory release --output-directory windows-store-package --package-version ${{ github.ref_name }} --package-name CupControl --package-display-name "Cup Control" --publisher-display-name "Moises Magna" --identity-name "MoisesMagna.CupControl"
+        
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
@@ -43,5 +51,6 @@ jobs:
           files: |
             release/*.exe
             release/*.zip
+            windows-store-package/*.msix
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

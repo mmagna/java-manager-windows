@@ -36,9 +36,22 @@
       "target": [
         "nsis",
         "portable",
-        "zip"
+        "zip",
+        "appx"
       ],
       "icon": "assets/cupcontrol.ico"
+    },
+    "appx": {
+      "applicationId": "CupControl",
+      "backgroundColor": "#2c3e50",
+      "displayName": "Cup Control - Java Version Manager",
+      "identityName": "MoisesMagna.CupControl",
+      "publisher": "CN=C87D831C-A12C-40B1-8D89-9AC6FA50429A",
+      "publisherDisplayName": "Moises Magna",
+      "languages": [
+        "es-ES",
+        "en-US"
+      ]
     },
     "nsis": {
       "oneClick": false,
