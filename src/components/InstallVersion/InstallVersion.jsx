@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 function InstallVersion({ onInstallVersion }) {
+  const { t } = useTranslation();
   const [availableVersions, setAvailableVersions] = useState([]);
   const [selectedVersion, setSelectedVersion] = useState("");
   const [loading, setLoading] = useState(true);
@@ -28,7 +30,7 @@ function InstallVersion({ onInstallVersion }) {
       } else if (status === "error") {
         setTimeout(() => {
           setInstalling(false);
-          setError(message || "Error durante la instalación");
+          setError(message || t('installVersion.error'));
           setInstallStatus("");
         }, 1500);
       }
@@ -42,7 +44,7 @@ function InstallVersion({ onInstallVersion }) {
         handleInstallUpdate
       );
     };
-  }, []);
+  }, [t]);
 
   // En la función loadAvailableVersions después de recibir las versiones
   async function loadAvailableVersions() {
@@ -76,7 +78,7 @@ function InstallVersion({ onInstallVersion }) {
     } catch (error) {
       console.error("Error al cargar versiones disponibles:", error);
       setError(
-        "No se pudieron cargar las versiones. Verifica tu conexión a internet."
+        t('installVersion.loadError')
       );
     } finally {
       setLoading(false);
@@ -91,18 +93,16 @@ function InstallVersion({ onInstallVersion }) {
 
     // Información aproximada del tamaño de descarga
     const sizeInfo = {
+      "openjdk-8": "~180 MB",
+      "openjdk-11": "~180 MB",
       "openjdk-17": "~180 MB",
       "openjdk-21": "~190 MB",
-      "zulu-11": "~200 MB",
-      "zulu-8": "~160 MB",
-      "liberica-11": "~190 MB",
-      "liberica-8": "~150 MB",
     };
 
     setInstalling(true);
     setInstallStatus(
-      `Preparando descarga... Tamaño aproximado: ${
-        sizeInfo[selectedVersion] || "desconocido"
+      `${t('installVersion.preparing')} ${
+        sizeInfo[selectedVersion] || t('installVersion.unknown')
       }`
     );
 
@@ -120,7 +120,7 @@ function InstallVersion({ onInstallVersion }) {
       {loading ? (
         <div className="loading">
           <div className="spinner"></div>
-          <p>Cargando versiones disponibles...</p>
+          <p>{t('installVersion.loading')}</p>
         </div>
       ) : availableVersions.length > 0 ? (
         <>
@@ -131,7 +131,7 @@ function InstallVersion({ onInstallVersion }) {
               onChange={handleSelectChange}
               disabled={installing}
             >
-              <option value="">Selecciona una versión...</option>
+              <option value="">{t('installVersion.selectVersion')}</option>
               {availableVersions.map((version) => (
                 <option key={version.id} value={version.id}>
                   {version.name}
@@ -145,7 +145,7 @@ function InstallVersion({ onInstallVersion }) {
           {installing ? (
             <div className="install-status">
               <div className="spinner"></div>
-              <p>{installStatus || "Instalando..."}</p>
+              <p>{installStatus || t('installVersion.installing')}</p>
             </div>
           ) : (
             <button
@@ -153,20 +153,19 @@ function InstallVersion({ onInstallVersion }) {
               onClick={handleInstall}
               disabled={!selectedVersion || installing}
             >
-              Instalar versión seleccionada
+              {t('installVersion.installButton')}
             </button>
           )}
         </>
       ) : (
         <div className="empty-list">
-          {error ||
-            "No se pudieron cargar las versiones disponibles. Verifica tu conexión a internet o si necesitas permisos de administrador."}
+          {error || t('installVersion.noVersions')}
           <button
             className="install-btn"
             style={{ marginTop: "1rem" }}
             onClick={loadAvailableVersions}
           >
-            Reintentar
+            {t('installVersion.retry')}
           </button>
         </div>
       )}

@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 function JavaVersionList({
   versions,
@@ -6,14 +7,16 @@ function JavaVersionList({
   onUninstallVersion,
   loading,
 }) {
+  const { t } = useTranslation();
+
   if (loading) {
-    return <div className="loading">Cargando versiones instaladas...</div>;
+    return <div className="loading">{t('versionList.loading')}</div>;
   }
 
   if (!versions || versions.length === 0) {
     return (
       <div className="empty-list">
-        No se encontraron versiones de Java instaladas
+        {t('versionList.noVersions')}
       </div>
     );
   }
@@ -35,17 +38,17 @@ function JavaVersionList({
                 onClick={() => onSetVersion(version.version)}
                 className="btn btn-primary"
               >
-                Activar
+                {t('versionList.activate')}
               </button>
             ) : (
-              <div className="version-active-indicator">Activa</div>
+              <div className="version-active-indicator">{t('versionList.active')}</div>
             )}
             <button
               onClick={() => onUninstallVersion(version.version)}
               className="btn btn-danger"
               disabled={version.active}
             >
-              Desinstalar
+              {t('versionList.uninstall')}
             </button>
           </div>
         </div>

@@ -1,0 +1,47 @@
+{
+  "app": {
+    "title": "Cup Control",
+    "subtitle": "Java Version Manager"
+  },
+  "sections": {
+    "currentVersion": "Current Java Version",
+    "installedVersions": "Installed Versions",
+    "installNewVersion": "Install New Version"
+  },
+  "currentVersion": {
+    "notSet": "No Java version is set",
+    "notSetDescription": "No Java version has been configured as active.",
+    "version": "Version",
+    "path": "Path"
+  },
+  "versionList": {
+    "loading": "Loading installed versions...",
+    "noVersions": "No Java versions found",
+    "version": "Version",
+    "path": "Path",
+    "activate": "Activate",
+    "active": "Active",
+    "uninstall": "Uninstall"
+  },
+  "installVersion": {
+    "loading": "Loading available versions...",
+    "error": "Error during installation",
+    "loadError": "Could not load versions. Check your internet connection.",
+    "selectVersion": "Select a version...",
+    "installButton": "Install selected version",
+    "installing": "Installing...",
+    "noVersions": "No available versions could be loaded. Check your internet connection or if you need administrator permissions.",
+    "retry": "Retry",
+    "preparing": "Preparing download... Approximate size:",
+    "unknown": "unknown"
+  },
+  "notifications": {
+    "installSuccess": "Java installation completed successfully",
+    "installError": "Error during installation",
+    "activateSuccess": "Java version successfully set as active",
+    "activateRestart": "You may need to restart some applications or your session to see the change.",
+    "uninstallSuccess": "Java version successfully uninstalled",
+    "loadError": "Error loading data",
+    "welcome": "Welcome to Cup Control. This application allows you to easily install and manage different Java versions."
+  }
+}

@@ -112,3 +112,7 @@ ipcMain.handle('install-java-version', async (event, version) => {
 ipcMain.handle('uninstall-java-version', async (event, version) => {
   return await javaManager.uninstallVersion(version);
 });
+
+ipcMain.handle('get-system-language', () => {
+  return app.getLocale(); // Devuelve el código de idioma del sistema, como 'es-ES', 'en-US', etc.
+});

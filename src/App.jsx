@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
-import CurrentVersion from "./components/CurrentVersion/CurrentVersion";
-import JavaVersionList from "./components/JavaVersionList/JavaVersionList";
-import InstallVersion from "./components/InstallVersion/InstallVersion";
-
+import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import CurrentVersion from './components/CurrentVersion/CurrentVersion';
+import JavaVersionList from './components/JavaVersionList/JavaVersionList';
+import InstallVersion from './components/InstallVersion/InstallVersion';
+import LanguageSelector from './components/LanguageSelector/LanguageSelector';
 function App() {
+  const { t } = useTranslation();
   const [installedVersions, setInstalledVersions] = useState([]);
   const [currentVersion, setCurrentVersion] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -11,18 +13,18 @@ function App() {
 
   useEffect(() => {
     // Mostrar mensaje de bienvenida solo la primera vez
-    const firstTime = localStorage.getItem("firstTimeVisit") !== "false";
+    const firstTime = localStorage.getItem('firstTimeVisit') !== 'false';
     if (firstTime) {
       showNotification(
-        "Bienvenido al Gestor de Versiones de Java. Esta aplicación te permite instalar y gestionar diferentes versiones de Java fácilmente.",
-        "info",
+        t('notifications.welcome'),
+        'info',
         8000
       );
-      localStorage.setItem("firstTimeVisit", "false");
+      localStorage.setItem('firstTimeVisit', 'false');
     }
-
+    
     loadData();
-  }, []);
+  }, [t]);
 
   async function loadData() {
     setLoading(true);
@@ -196,7 +198,8 @@ function App() {
   return (
     <div className="app-container">
       <header className="app-header">
-        <h1>Cup Control</h1>
+        <h1>{t('app.title')}</h1>
+        <LanguageSelector />
       </header>
 
       {notification && (
@@ -207,13 +210,16 @@ function App() {
 
       <main className="app-content">
         <div className="app-section">
-          <h2>Versión actual de Java</h2>
-          <CurrentVersion currentVersion={currentVersion} loading={loading} />
+          <h2>{t('sections.currentVersion')}</h2>
+          <CurrentVersion 
+            currentVersion={currentVersion} 
+            loading={loading} 
+          />
         </div>
 
         <div className="app-section">
-          <h2>Versiones instaladas</h2>
-          <JavaVersionList
+          <h2>{t('sections.installedVersions')}</h2>
+          <JavaVersionList 
             versions={installedVersions}
             onSetVersion={handleSetVersion}
             onUninstallVersion={handleUninstallVersion}
@@ -222,8 +228,10 @@ function App() {
         </div>
 
         <div className="app-section">
-          <h2>Instalar nueva versión</h2>
-          <InstallVersion onInstallVersion={handleInstallVersion} />
+          <h2>{t('sections.installNewVersion')}</h2>
+          <InstallVersion 
+            onInstallVersion={handleInstallVersion} 
+          />
         </div>
       </main>
     </div>
