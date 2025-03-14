@@ -1,0 +1,80 @@
+
+// Botón base
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-sm $spacing-lg;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  border-radius: $border-radius-sm;
+  cursor: pointer;
+  transition: $transition-base;
+  border: none;
+  outline: none;
+  white-space: nowrap;
+}
+
+// Botón primario
+@mixin button-primary {
+  @include button-base;
+  background-color: $accent;
+  color: white;
+
+  &:hover {
+    background-color: $accent-hover;
+  }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    background-color: lighten($accent, 20%); 
+  }
+}
+
+// Botón peligro
+@mixin button-danger {
+  @include button-base;
+  background-color: $danger;
+  color: white;
+
+  &:hover {
+    background-color: darken($danger, 10%);
+  }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    background-color: lighten($danger, 20%); 
+  }
+}
+
+// Mixin para tarjetas
+@mixin card {
+  background-color: $card-bg;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-md;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-lg;
+  transition: $transition-base;
+  border: 1px solid $border-color;
+}
+
+// Mixin para spinners de carga
+@mixin spinner($size: 30px, $border-width: 3px, $color: $accent) {
+  width: $size;
+  height: $size;
+  border: $border-width solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-left-color: $color;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

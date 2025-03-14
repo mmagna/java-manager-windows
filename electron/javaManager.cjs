@@ -13,7 +13,20 @@ class JavaManager {
     this.userHome = os.homedir();
     this.javaBaseDir = path.join(this.userHome, ".jdks");
 
+    // En javaManager.cjs, dentro del constructor
     this.availableVersions = [
+      {
+        id: "openjdk-8",
+        name: "OpenJDK 8 (LTS)",
+        url: "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u392-b08/OpenJDK8U-jdk_x64_windows_hotspot_8u392b08.zip",
+        type: "zip",
+      },
+      {
+        id: "openjdk-11",
+        name: "OpenJDK 11 (LTS)",
+        url: "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.21%2B9/OpenJDK11U-jdk_x64_windows_hotspot_11.0.21_9.zip",
+        type: "zip",
+      },
       {
         id: "openjdk-17",
         name: "OpenJDK 17 (LTS)",
@@ -24,30 +37,6 @@ class JavaManager {
         id: "openjdk-21",
         name: "OpenJDK 21 (LTS)",
         url: "https://download.oracle.com/java/21/latest/jdk-21_windows-x64_bin.zip",
-        type: "zip",
-      },
-      {
-        id: "zulu-11",
-        name: "Azul Zulu 11 (LTS)",
-        url: "https://cdn.azul.com/zulu/bin/zulu11.66.15-ca-jdk11.0.20-win_x64.zip",
-        type: "zip",
-      },
-      {
-        id: "zulu-8",
-        name: "Azul Zulu 8 (LTS)",
-        url: "https://cdn.azul.com/zulu/bin/zulu8.74.0.17-ca-jdk8.0.392-win_x64.zip",
-        type: "zip",
-      },
-      {
-        id: "liberica-11",
-        name: "BellSoft Liberica 11 (LTS)",
-        url: "https://download.bell-sw.com/java/11.0.20.1+1/bellsoft-jdk11.0.20.1+1-windows-amd64.zip",
-        type: "zip",
-      },
-      {
-        id: "liberica-8",
-        name: "BellSoft Liberica 8 (LTS)",
-        url: "https://download.bell-sw.com/java/8u392+9/bellsoft-jdk8u392+9-windows-amd64.zip",
         type: "zip",
       },
     ];
@@ -194,13 +183,16 @@ class JavaManager {
   // Verificar si una versión es la activa actualmente
   async isActiveVersion(javaPath) {
     try {
+      // Obtener el JAVA_HOME del sistema
       const { stdout } = await execAsync("echo %JAVA_HOME%");
       const javaHome = stdout.trim();
-
+  
       // Normalizar las rutas para comparación (eliminar barras finales, convertir a minúsculas)
       const normalizedJavaHome = javaHome.toLowerCase().replace(/\\+$/, "");
       const normalizedPath = javaPath.toLowerCase().replace(/\\+$/, "");
-
+  
+      console.log(`Comparando rutas: ${normalizedJavaHome} vs ${normalizedPath}`);
+  
       // Comprobar si las rutas normalizadas coinciden
       return normalizedJavaHome === normalizedPath;
     } catch (error) {

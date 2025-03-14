@@ -1,0 +1,45 @@
+{
+    "app": {
+      "title": "Cup Control",
+      "subtitle": "Gestionnaire de Versions Java"
+    },
+    "sections": {
+      "currentVersion": "Version Java actuelle",
+      "installedVersions": "Versions installées",
+      "installNewVersion": "Installer une nouvelle version"
+    },
+    "currentVersion": {
+      "notSet": "Aucune version Java n'est définie",
+      "notSetDescription": "Aucune version Java n'a été configurée comme active.",
+      "version": "Version",
+      "path": "Chemin"
+    },
+    "versionList": {
+      "loading": "Chargement des versions installées...",
+      "noVersions": "Aucune version Java trouvée",
+      "activate": "Activer",
+      "active": "Active",
+      "uninstall": "Désinstaller"
+    },
+    "installVersion": {
+      "loading": "Chargement des versions disponibles...",
+      "error": "Erreur lors de l'installation",
+      "loadError": "Impossible de charger les versions. Vérifiez votre connexion internet.",
+      "installing": "Installation en cours...",
+      "selectVersion": "Sélectionnez une version...",
+      "installButton": "Installer la version sélectionnée",
+      "noVersions": "Aucune version disponible n'a pu être chargée. Vérifiez votre connexion internet ou si vous avez besoin de droits d'administrateur.",
+      "retry": "Réessayer",
+      "preparing": "Préparation du téléchargement... Taille approximative :",
+      "unknown": "inconnue"
+    },
+    "notifications": {
+      "installSuccess": "Installation Java terminée avec succès",
+      "installError": "Erreur lors de l'installation",
+      "activateSuccess": "Version Java définie comme active avec succès",
+      "activateRestart": "Vous devrez peut-être redémarrer certaines applications ou votre session pour voir les changements.",
+      "uninstallSuccess": "Version Java désinstallée avec succès",
+      "loadError": "Erreur lors du chargement des données",
+      "welcome": "Bienvenue dans Cup Control. Cette application vous permet d'installer et de gérer facilement différentes versions de Java."
+    }
+  }

@@ -1,0 +1,84 @@
+@import "../../styles/variables";
+
+.language-selector {
+  position: relative;
+  font-size: $font-size-sm;
+  z-index: 10; // Para que el dropdown aparezca por encima de otros elementos
+
+  .current-language {
+    display: flex;
+    align-items: center;
+    padding: 0.4rem 2.5rem 0.4rem 2.5rem;
+    background-color: white;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-sm;
+    cursor: pointer;
+    min-width: 140px;
+    position: relative;
+
+    &:hover {
+      border-color: $accent;
+    }
+
+    .flag-icon {
+      width: 20px;
+      height: 15px;
+      margin-right: 8px;
+      border-radius: 2px;
+      object-fit: cover;
+    }
+
+    .selected-language {
+      flex: 1;
+    }
+
+    .dropdown-arrow {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid $text-secondary;
+    }
+  }
+
+  .language-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    background-color: white;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-sm;
+    box-shadow: $shadow-md;
+    overflow: hidden;
+
+    .language-option {
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba($accent, 0.05);
+      }
+
+      &.active {
+        background-color: rgba($accent, 0.1);
+        color: $accent;
+      }
+
+      .flag-icon {
+        width: 20px;
+        height: 15px;
+        margin-right: 8px;
+        border-radius: 2px;
+        object-fit: cover;
+      }
+    }
+  }
+}

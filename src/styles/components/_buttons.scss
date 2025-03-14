@@ -1,0 +1,54 @@
+.btn {
+  @include button-base;
+
+  &-primary {
+    @include button-primary;
+  }
+
+  &-secondary {
+    @include button-base;
+    background-color: #f8f9fa;
+    color: $text-primary;
+    border: 1px solid $border-color;
+
+    &:hover {
+      background-color: #e9ecef;
+    }
+  }
+
+  &-success {
+    @include button-base;
+    background-color: $success;
+    color: white;
+
+    &:hover {
+        background-color: darken($success, 10%);
+    }
+  }
+
+  &-danger {
+    @include button-danger;
+  }
+
+  &-warning {
+    @include button-base;
+    background-color: $warning;
+    color: white;
+
+    &:hover {
+        background-color: darken($warning, 10%);
+    }
+  }
+
+  &-block {
+    display: block;
+    width: 100%;
+  }
+}
+
+.install-btn {
+  @include button-primary;
+  display: block;
+  width: 100%;
+  padding: $spacing-md $spacing-lg;
+}

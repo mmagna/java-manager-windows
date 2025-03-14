@@ -1,0 +1,45 @@
+{
+    "app": {
+      "title": "Cup Control",
+      "subtitle": "Java-Versionsverwaltung"
+    },
+    "sections": {
+      "currentVersion": "Aktuelle Java-Version",
+      "installedVersions": "Installierte Versionen",
+      "installNewVersion": "Neue Version installieren"
+    },
+    "currentVersion": {
+      "notSet": "Keine Java-Version festgelegt",
+      "notSetDescription": "Es wurde keine Java-Version als aktiv konfiguriert.",
+      "version": "Version",
+      "path": "Pfad"
+    },
+    "versionList": {
+      "loading": "Installierte Versionen werden geladen...",
+      "noVersions": "Keine Java-Versionen gefunden",
+      "activate": "Aktivieren",
+      "active": "Aktiv",
+      "uninstall": "Deinstallieren"
+    },
+    "installVersion": {
+      "loading": "Verfügbare Versionen werden geladen...",
+      "error": "Fehler bei der Installation",
+      "loadError": "Versionen konnten nicht geladen werden. Überprüfen Sie Ihre Internetverbindung.",
+      "installing": "Installation läuft...",
+      "selectVersion": "Wählen Sie eine Version...",
+      "installButton": "Ausgewählte Version installieren",
+      "noVersions": "Es konnten keine verfügbaren Versionen geladen werden. Überprüfen Sie Ihre Internetverbindung oder ob Sie Administratorrechte benötigen.",
+      "retry": "Erneut versuchen",
+      "preparing": "Download wird vorbereitet... Ungefähre Größe:",
+      "unknown": "unbekannt"
+    },
+    "notifications": {
+      "installSuccess": "Java-Installation erfolgreich abgeschlossen",
+      "installError": "Fehler bei der Installation",
+      "activateSuccess": "Java-Version erfolgreich als aktiv festgelegt",
+      "activateRestart": "Möglicherweise müssen Sie einige Anwendungen oder Ihre Sitzung neu starten, um die Änderung zu sehen.",
+      "uninstallSuccess": "Java-Version erfolgreich deinstalliert",
+      "loadError": "Fehler beim Laden von Daten",
+      "welcome": "Willkommen bei Cup Control. Diese Anwendung ermöglicht es Ihnen, verschiedene Java-Versionen einfach zu installieren und zu verwalten."
+    }
+  }

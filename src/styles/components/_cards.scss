@@ -1,0 +1,106 @@
+.app-section {
+  @include card;
+  margin-bottom: $spacing-xl;
+
+  h2 {
+    margin-top: 0;
+    color: $primary;
+    font-size: $font-size-xl;
+    margin-bottom: $spacing-lg;
+    border-bottom: 1px solid $border-color;
+    padding-bottom: $spacing-sm;
+  }
+}
+
+.version-item {
+  @include card;
+  padding: $spacing-md;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-md;
+  transition: $transition-base;
+
+  &.active {
+    border-color: $accent;
+    background-color: rgba($accent, 0.05);
+  }
+
+  &:hover {
+    box-shadow: $shadow-lg;
+  }
+}
+
+.version-info {
+  flex: 1;
+}
+
+.version-name {
+  font-weight: $font-weight-bold;
+  margin-bottom: $spacing-xs;
+  color: $text-primary;
+}
+
+.version-path {
+  color: $text-secondary;
+  font-size: $font-size-sm;
+  font-family: monospace;
+  word-break: break-all;
+}
+
+.current-version {
+  @include card;
+
+  .version-badge {
+    display: inline-block;
+    padding: $spacing-xs $spacing-sm;
+    background-color: $accent;
+    color: white;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    border-radius: $border-radius-sm;
+    margin-bottom: $spacing-md;
+  }
+
+  .version-details {
+    margin-top: $spacing-md;
+
+    p {
+      margin-bottom: $spacing-xs;
+
+      strong {
+        color: $primary;
+      }
+    }
+  }
+
+  &.not-set {
+    border-color: $warning;
+    background-color: rgba($warning, 0.05);
+
+    h3 {
+      color: $warning;
+    }
+  }
+}
+
+.version-active-indicator {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.8rem;
+  background-color: rgba($success, 0.1);
+  color: $success;
+  font-weight: $font-weight-medium;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-sm;
+
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: $success;
+    margin-right: 0.5rem;
+  }
+}

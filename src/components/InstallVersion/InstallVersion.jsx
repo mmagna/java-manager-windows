@@ -1,71 +1,85 @@
-import React, { useState, useEffect } from 'react';
-import './InstallVersion.css';
+import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 function InstallVersion({ onInstallVersion }) {
+  const { t } = useTranslation();
   const [availableVersions, setAvailableVersions] = useState([]);
-  const [selectedVersion, setSelectedVersion] = useState('');
+  const [selectedVersion, setSelectedVersion] = useState("");
   const [loading, setLoading] = useState(true);
   const [installing, setInstalling] = useState(false);
-  const [installStatus, setInstallStatus] = useState('');
-  const [error, setError] = useState('');
-  
+  const [installStatus, setInstallStatus] = useState("");
+  const [error, setError] = useState("");
+
   useEffect(() => {
     loadAvailableVersions();
-    
+
     // Escucha actualizaciones de estado de instalación
     const handleInstallUpdate = (event) => {
       const { status, message } = event.detail;
       console.log(`Actualización de estado: ${status} - ${message}`);
       setInstallStatus(message);
-      
-      if (status === 'completed') {
+
+      if (status === "completed") {
         setTimeout(() => {
           setInstalling(false);
-          setSelectedVersion(''); // Resetear la selección cuando termina
-          setInstallStatus('');
+          setSelectedVersion(""); // Resetear la selección cuando termina
+          setInstallStatus("");
           // Recargar las versiones instaladas
           loadAvailableVersions();
         }, 1500); // Pequeño retraso para que el usuario vea el mensaje final
-      } else if (status === 'error') {
+      } else if (status === "error") {
         setTimeout(() => {
           setInstalling(false);
-          setError(message || 'Error durante la instalación');
-          setInstallStatus('');
+          setError(message || t('installVersion.error'));
+          setInstallStatus("");
         }, 1500);
       }
     };
-    
-    document.addEventListener('install-status-update', handleInstallUpdate);
-    
+
+    document.addEventListener("install-status-update", handleInstallUpdate);
+
     return () => {
-      document.removeEventListener('install-status-update', handleInstallUpdate);
+      document.removeEventListener(
+        "install-status-update",
+        handleInstallUpdate
+      );
     };
-  }, []);
-  
+  }, [t]);
+
+  // En la función loadAvailableVersions después de recibir las versiones
   async function loadAvailableVersions() {
     setLoading(true);
-    setError('');
-    
+    setError("");
+
     try {
       if (window.electronAPI) {
         const versions = await window.electronAPI.getAvailableVersions();
-        setAvailableVersions(versions);
+
+        // Ordenar versiones de menor a mayor (8, 11, 17, 21)
+        const sortedVersions = [...versions].sort((a, b) => {
+          // Extraer el número de versión del ID (openjdk-XX)
+          const versionA = parseInt(a.id.split("-")[1]);
+          const versionB = parseInt(b.id.split("-")[1]);
+          return versionA - versionB;
+        });
+
+        setAvailableVersions(sortedVersions);
       } else {
-        // Datos de ejemplo para desarrollo sin Electron
+        // Datos de ejemplo para desarrollo sin Electron (ya ordenados)
         setTimeout(() => {
           setAvailableVersions([
-            { id: 'openjdk-17', name: 'Java 17 (OpenJDK)' },
-            { id: 'openjdk-21', name: 'Java 21 (OpenJDK)' },
-            { id: 'zulu-11', name: 'Java 11 (Azul Zulu)' },
-            { id: 'zulu-8', name: 'Java 8 (Azul Zulu)' },
-            { id: 'liberica-11', name: 'Java 11 (BellSoft Liberica)' },
-            { id: 'liberica-8', name: 'Java 8 (BellSoft Liberica)' }
+            { id: "openjdk-8", name: "OpenJDK 8 (LTS)" },
+            { id: "openjdk-11", name: "OpenJDK 11 (LTS)" },
+            { id: "openjdk-17", name: "OpenJDK 17 (LTS)" },
+            { id: "openjdk-21", name: "OpenJDK 21 (LTS)" },
           ]);
         }, 800); // Simulación de carga en modo desarrollo
       }
     } catch (error) {
-      console.error('Error al cargar versiones disponibles:', error);
-      setError('No se pudieron cargar las versiones. Verifica tu conexión a internet.');
+      console.error("Error al cargar versiones disponibles:", error);
+      setError(
+        t('installVersion.loadError')
+      );
     } finally {
       setLoading(false);
     }
@@ -73,30 +87,32 @@ function InstallVersion({ onInstallVersion }) {
 
   function handleInstall() {
     if (!selectedVersion) return;
-    
+
     // Limpiar cualquier error previo
-    setError('');
-    
+    setError("");
+
     // Información aproximada del tamaño de descarga
     const sizeInfo = {
-      'openjdk-17': '~180 MB',
-      'openjdk-21': '~190 MB',
-      'zulu-11': '~200 MB',
-      'zulu-8': '~160 MB',
-      'liberica-11': '~190 MB',
-      'liberica-8': '~150 MB'
+      "openjdk-8": "~180 MB",
+      "openjdk-11": "~180 MB",
+      "openjdk-17": "~180 MB",
+      "openjdk-21": "~190 MB",
     };
-    
+
     setInstalling(true);
-    setInstallStatus(`Preparando descarga... Tamaño aproximado: ${sizeInfo[selectedVersion] || 'desconocido'}`);
-    
+    setInstallStatus(
+      `${t('installVersion.preparing')} ${
+        sizeInfo[selectedVersion] || t('installVersion.unknown')
+      }`
+    );
+
     // Llamar a la función de instalación del componente padre
     onInstallVersion(selectedVersion);
   }
 
   function handleSelectChange(e) {
     setSelectedVersion(e.target.value);
-    setError(''); // Limpiar errores al cambiar la selección
+    setError(""); // Limpiar errores al cambiar la selección
   }
 
   return (
@@ -104,18 +120,18 @@ function InstallVersion({ onInstallVersion }) {
       {loading ? (
         <div className="loading">
           <div className="spinner"></div>
-          <p>Cargando versiones disponibles...</p>
+          <p>{t('installVersion.loading')}</p>
         </div>
       ) : availableVersions.length > 0 ? (
         <>
           <div className="select-container">
-            <select 
+            <select
               className="version-select"
               value={selectedVersion}
               onChange={handleSelectChange}
               disabled={installing}
             >
-              <option value="">Selecciona una versión...</option>
+              <option value="">{t('installVersion.selectVersion')}</option>
               {availableVersions.map((version) => (
                 <option key={version.id} value={version.id}>
                   {version.name}
@@ -123,33 +139,33 @@ function InstallVersion({ onInstallVersion }) {
               ))}
             </select>
           </div>
-          
+
           {error && <div className="empty-list">{error}</div>}
-          
+
           {installing ? (
             <div className="install-status">
               <div className="spinner"></div>
-              <p>{installStatus || "Instalando..."}</p>
+              <p>{installStatus || t('installVersion.installing')}</p>
             </div>
           ) : (
-            <button 
+            <button
               className="install-btn"
               onClick={handleInstall}
               disabled={!selectedVersion || installing}
             >
-              Instalar versión seleccionada
+              {t('installVersion.installButton')}
             </button>
           )}
         </>
       ) : (
         <div className="empty-list">
-          {error || 'No se pudieron cargar las versiones disponibles. Verifica tu conexión a internet o si necesitas permisos de administrador.'}
-          <button 
-            className="install-btn" 
-            style={{ marginTop: '1rem' }}
+          {error || t('installVersion.noVersions')}
+          <button
+            className="install-btn"
+            style={{ marginTop: "1rem" }}
             onClick={loadAvailableVersions}
           >
-            Reintentar
+            {t('installVersion.retry')}
           </button>
         </div>
       )}

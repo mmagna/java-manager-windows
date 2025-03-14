@@ -24,7 +24,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   setJavaVersion: (version) => ipcRenderer.invoke('set-java-version', version),
   uninstallJavaVersion: (version) => ipcRenderer.invoke('uninstall-java-version', version),
   updateInstallStatus: (status, message) => sendInstallStatusUpdate(status, message),
-  installJavaVersion: (version) => ipcRenderer.invoke('install-java-version', version)
+  installJavaVersion: (version) => ipcRenderer.invoke('install-java-version', version),
+  setAppLanguage: (language) => ipcRenderer.invoke('set-app-language', language),
+  getSystemLanguage: () => ipcRenderer.invoke('get-system-language')
 
   
 });

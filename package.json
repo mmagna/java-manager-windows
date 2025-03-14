@@ -6,7 +6,7 @@
     "email": "moisesmagna@gmail.com"
   },
   "private": true,
-  "version": "1.0.7",
+  "version": "1.2.0",
   "type": "commonjs",
   "scripts": {
     "dev": "vite",
@@ -36,9 +36,28 @@
       "target": [
         "nsis",
         "portable",
-        "zip"
+        "zip",
+        "appx"
       ],
       "icon": "assets/cupcontrol.ico"
+    },
+    "appx": {
+      "applicationId": "CupControl",
+      "backgroundColor": "#2c3e50",
+      "displayName": "Cup Control - Java Version Manager",
+      "identityName": "MoisesMagna.CupControl",
+      "publisher": "CN=C87D831C-A12C-40B1-8D89-9AC6FA50429A",
+      "publisherDisplayName": "Moises Magna",
+      "languages": [
+        "en-US",
+        "es-ES",
+        "fr-FR",
+        "de-DE",
+        "pt-PT"
+      ],
+      "capabilities": [
+        "internetClient"
+      ]
     },
     "nsis": {
       "oneClick": false,
@@ -55,9 +74,11 @@
     }
   },
   "dependencies": {
+    "i18next": "^24.2.3",
+    "i18next-browser-languagedetector": "^8.0.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-scripts": "^5.0.1"
+    "react-i18next": "^15.4.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
@@ -68,12 +89,13 @@
     "cross-env": "^7.0.3",
     "electron": "^35.0.1",
     "electron-builder": "^25.1.8",
-    "electron-is-dev": "null",
     "electron-packager": "^17.1.2",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
+    "sass": "^1.85.1",
+    "typescript": "^5.8.2",
     "vite": "^6.2.0",
     "wait-on": "^8.0.3"
   }
