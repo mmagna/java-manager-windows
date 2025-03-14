@@ -36,11 +36,13 @@ jobs:
       
       # Nuevos pasos para Microsoft Store
       - name: Install electron-windows-store
-        run: npm install -g electron-windows-store
-      
+        run: |
+          npm install -g electron-windows-store@2.1.0
+          npm list -g electron-windows-store
+
       - name: Create Windows Store Package
         run: |
-          electron-windows-store --input-directory release --output-directory windows-store-package --package-version ${{ github.ref_name }} --package-name CupControl --package-display-name "Cup Control" --publisher-display-name "Moises Magna" --identity-name "MoisesMagna.CupControl"
+          npx electron-windows-store --input-directory release --output-directory windows-store-package --package-version ${{ github.ref_name }} --package-name CupControl --package-display-name "Cup Control" --publisher-display-name "Moises Magna" --identity-name "MoisesMagna.CupControl" --flatten
         
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
