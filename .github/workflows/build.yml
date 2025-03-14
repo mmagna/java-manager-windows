@@ -28,8 +28,8 @@ jobs:
       - name: Remove electron-is-dev dependency
         run: npm uninstall electron-is-dev
       
-      - name: Build Electron app
-        run: npm run electron:build
+      - name: Build Electron app with AppX target
+        run: npm run electron:build:appx
       
       - name: List files in release directory
         run: Get-ChildItem -Path release -Recurse | Format-Table Name, Length
