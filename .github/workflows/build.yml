@@ -30,6 +30,8 @@ jobs:
       
       - name: Build Electron app with AppX target
         run: npm run electron:build:appx
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
       
       - name: List files in release directory
         run: Get-ChildItem -Path release -Recurse | Format-Table Name, Length
