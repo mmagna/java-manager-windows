@@ -1,57 +1,84 @@
-@import '../../styles/variables';
+@import "../../styles/variables";
 
 .language-selector {
   position: relative;
-  margin-left: auto;
+  font-size: $font-size-sm;
+  z-index: 10; // Para que el dropdown aparezca por encima de otros elementos
 
-  .language-display {
-    position: relative;
+  .current-language {
     display: flex;
     align-items: center;
-  }
-
-  .flag-icon {
-    position: absolute;
-    width: 20px;
-    height: 15px;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    object-fit: cover;
-    border-radius: 2px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    pointer-events: none;
-  }
-
-  .language-select {
-    appearance: none;
+    padding: 0.4rem 2.5rem 0.4rem 2.5rem;
     background-color: white;
     border: 1px solid $border-color;
     border-radius: $border-radius-sm;
-    padding: 6px 30px 6px 40px;
-    font-size: $font-size-sm;
-    color: $text-primary;
     cursor: pointer;
-    min-width: 130px;
+    min-width: 140px;
+    position: relative;
 
-    &:focus {
-      outline: none;
+    &:hover {
       border-color: $accent;
-      box-shadow: 0 0 0 2px rgba($accent, 0.1);
+    }
+
+    .flag-icon {
+      width: 20px;
+      height: 15px;
+      margin-right: 8px;
+      border-radius: 2px;
+      object-fit: cover;
+    }
+
+    .selected-language {
+      flex: 1;
+    }
+
+    .dropdown-arrow {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid $text-secondary;
     }
   }
 
-  &::after {
-    content: "";
+  .language-dropdown {
     position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid $text-secondary;
-    pointer-events: none;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    background-color: white;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-sm;
+    box-shadow: $shadow-md;
+    overflow: hidden;
+
+    .language-option {
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba($accent, 0.05);
+      }
+
+      &.active {
+        background-color: rgba($accent, 0.1);
+        color: $accent;
+      }
+
+      .flag-icon {
+        width: 20px;
+        height: 15px;
+        margin-right: 8px;
+        border-radius: 2px;
+        object-fit: cover;
+      }
+    }
   }
 }

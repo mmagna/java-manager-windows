@@ -49,8 +49,14 @@
       "publisher": "CN=C87D831C-A12C-40B1-8D89-9AC6FA50429A",
       "publisherDisplayName": "Moises Magna",
       "languages": [
+        "en-US",
         "es-ES",
-        "en-US"
+        "fr-FR",
+        "de-DE",
+        "pt-PT"
+      ],
+      "capabilities": [
+        "internetClient"
       ]
     },
     "nsis": {

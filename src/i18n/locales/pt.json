@@ -1,0 +1,45 @@
+{
+    "app": {
+      "title": "Cup Control",
+      "subtitle": "Gerenciador de Versões Java"
+    },
+    "sections": {
+      "currentVersion": "Versão Java atual",
+      "installedVersions": "Versões instaladas",
+      "installNewVersion": "Instalar nova versão"
+    },
+    "currentVersion": {
+      "notSet": "Nenhuma versão Java configurada",
+      "notSetDescription": "Nenhuma versão Java foi configurada como ativa.",
+      "version": "Versão",
+      "path": "Caminho"
+    },
+    "versionList": {
+      "loading": "Carregando versões instaladas...",
+      "noVersions": "Nenhuma versão Java encontrada",
+      "activate": "Ativar",
+      "active": "Ativa",
+      "uninstall": "Desinstalar"
+    },
+    "installVersion": {
+      "loading": "Carregando versões disponíveis...",
+      "error": "Erro durante a instalação",
+      "loadError": "Não foi possível carregar as versões. Verifique sua conexão com a internet.",
+      "installing": "Instalando...",
+      "selectVersion": "Selecione uma versão...",
+      "installButton": "Instalar versão selecionada",
+      "noVersions": "Não foi possível carregar as versões disponíveis. Verifique sua conexão com a internet ou se você precisa de permissões de administrador.",
+      "retry": "Tentar novamente",
+      "preparing": "Preparando download... Tamanho aproximado:",
+      "unknown": "desconhecido"
+    },
+    "notifications": {
+      "installSuccess": "Instalação do Java concluída com sucesso",
+      "installError": "Erro durante a instalação",
+      "activateSuccess": "Versão Java definida como ativa com sucesso",
+      "activateRestart": "Pode ser necessário reiniciar alguns aplicativos ou sua sessão para ver a alteração.",
+      "uninstallSuccess": "Versão Java desinstalada com sucesso",
+      "loadError": "Erro ao carregar dados",
+      "welcome": "Bem-vindo ao Cup Control. Este aplicativo permite instalar e gerenciar facilmente diferentes versões do Java."
+    }
+  }

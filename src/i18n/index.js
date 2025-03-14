@@ -5,15 +5,17 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 // Importar archivos de traducción
 import translationEN from './locales/en.json';
 import translationES from './locales/es.json';
+import translationFR from './locales/fr.json';
+import translationDE from './locales/de.json';
+import translationPT from './locales/pt.json';
 
 // Recursos de traducciones
 const resources = {
-  en: {
-    translation: translationEN
-  },
-  es: {
-    translation: translationES
-  }
+  en: { translation: translationEN },
+  es: { translation: translationES },
+  fr: { translation: translationFR },
+  de: { translation: translationDE },
+  pt: { translation: translationPT }
 };
 
 // Configuración de i18next
@@ -25,26 +27,25 @@ i18n
   // Inicializar i18next
   .init({
     resources,
-    fallbackLng: 'en', // Idioma por defecto si no se detecta o no está disponible
+    fallbackLng: 'en',
     interpolation: {
-      escapeValue: false // React ya escapa los valores
+      escapeValue: false
     },
     detection: {
-      order: ['navigator', 'localStorage', 'htmlTag'], // Orden de detección
-      caches: ['localStorage'], // Guardar preferencia en localStorage
+      order: ['navigator', 'localStorage', 'htmlTag'],
+      caches: ['localStorage'],
     }
   });
 
 // Exponer una función para cambiar el idioma manualmente
 export const changeLanguage = (lng) => {
   i18n.changeLanguage(lng);
-  // Guardar preferencia en localStorage
   localStorage.setItem('i18nextLng', lng);
 };
 
 // Obtener el idioma actual
 export const getCurrentLanguage = () => {
-  return i18n.language.split('-')[0]; // Convertir 'es-ES' a 'es'
+  return i18n.language.split('-')[0];
 };
 
 export default i18n;
