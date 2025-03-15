@@ -6,7 +6,7 @@
     "email": "moisesmagna@gmail.com"
   },
   "private": true,
-  "version": "2.0.3",
+  "version": "2.0.4",
   "type": "commonjs",
   "scripts": {
     "dev": "vite",
@@ -15,7 +15,7 @@
     "electron:dev": "concurrently -k \"cross-env BROWSER=none npm run dev\" \"wait-on tcp:5173 && electron electron/main.cjs\"",
     "electron:build": "vite build && electron-builder --publish never",
     "electron:preview": "electron electron/main.cjs",
-    "electron:build:appx": "vite build && electron-builder --win appx --publish never",
+    "build:all-formats": "vite build && electron-builder --win nsis msi appx --publish never",
     "release": "vite build && electron-builder --publish always"
   },
   "main": "electron/main.cjs",
@@ -38,7 +38,9 @@
         "nsis",
         "portable",
         "zip",
-        "appx"
+        "appx",
+        "msi",
+        "msix"
       ],
       "icon": "assets/cupcontrol.ico"
     },
@@ -55,13 +57,17 @@
         "fr-FR",
         "de-DE",
         "pt-PT"
-      ]
+      ],
+      "showNameOnTiles": true
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "artifactName": "${productName}-setup-${version}.${ext}"
+    },
+    "msi": {
+      "artifactName": "${productName}-installer-${version}.${ext}"
     },
     "portable": {
       "artifactName": "${productName}-portable-${version}.${ext}"
@@ -86,7 +92,7 @@
     "concurrently": "^9.1.2",
     "cross-env": "^7.0.3",
     "electron": "^35.0.1",
-    "electron-builder": "^25.1.8",
+    "electron-builder": "^24.13.1",
     "electron-packager": "^17.1.2",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",

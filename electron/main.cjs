@@ -38,6 +38,7 @@ function createWindow() {
     mainWindow = new BrowserWindow({
       width: 900,
       height: 700,
+      icon: path.join(__dirname, '../assets/cupcontrol.ico'),
       webPreferences: {
         nodeIntegration: false,
         contextIsolation: true,
