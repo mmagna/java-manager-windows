@@ -25,13 +25,27 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
+      # Arreglar el error del archivo installer.nsh
+      - name: Create empty installer.nsh file
+        run: |
+          New-Item -Path "./assets" -Name "installer.nsh" -ItemType "file" -Value "# This file was automatically created by the build process" -Force
+      
       - name: Build all formats
         run: npm run build:all-formats
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
+      - name: Find exact file paths
+        id: find_files
+        run: |
+          echo "Finding all generated installer files..."
+          $installerFiles = Get-ChildItem -Path "release" -Recurse -Include "*.exe", "*.msi", "*.appx", "*.msix", "*.zip" | Select-Object -ExpandProperty FullName
+          echo "Files found:"
+          $installerFiles | ForEach-Object { echo $_ }
+          echo "::set-output name=files::$($installerFiles -join ';')"
+      
       - name: List files in release directory
-        run: Get-ChildItem -Path release -Recurse | Format-Table Name, Length
+        run: Get-ChildItem -Path release -Recurse | Format-Table Name, Length, FullName
       
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
@@ -39,11 +53,14 @@ jobs:
         with:
           draft: false
           prerelease: false
+          # Asegurarnos de usar rutas absolutas o relativas correctas
           files: |
             release/*.exe
             release/*.msi
             release/*.appx
             release/*.msix
             release/*.zip
+          # Alternativa: usar rutas exactas encontradas en el paso anterior
+          # files: ${{ steps.find_files.outputs.files }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
