@@ -6,7 +6,7 @@
     "email": "moisesmagna@gmail.com"
   },
   "private": true,
-  "version": "2.0.5",
+  "version": "2.0.6",
   "type": "commonjs",
   "scripts": {
     "dev": "vite",
@@ -39,10 +39,10 @@
         "portable",
         "zip",
         "appx",
-        "msi",
-        "msix"
+        "msi"
       ],
-      "icon": "assets/cupcontrol.ico"
+      "icon": "assets/cupcontrol.ico",
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
     },
     "appx": {
       "applicationId": "CupControl",
@@ -64,7 +64,11 @@
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
-      "artifactName": "${productName}-setup-${version}.${ext}"
+      "artifactName": "${productName}-setup-${version}.${ext}",
+      "deleteAppDataOnUninstall": false,
+      "perMachine": false,
+      "runAfterFinish": true,
+      "include": "installer.nsh"
     },
     "msi": {
       "artifactName": "${productName}-installer-${version}.${ext}"
@@ -92,7 +96,7 @@
     "concurrently": "^9.1.2",
     "cross-env": "^7.0.3",
     "electron": "^35.0.1",
-    "electron-builder": "^24.13.1",
+    "electron-builder": "^25.1.8",
     "electron-packager": "^17.1.2",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",

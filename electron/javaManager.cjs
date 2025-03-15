@@ -203,130 +203,57 @@ class JavaManager {
     }
   }
 
-  // Obtener la versión actual de Java
-  // En javaManager.cjs
-  // Mejoremos el método para verificar la versión actual
-
-  // Obtener la versión actual de Java
-  // En javaManager.cjs
-  // Obtener la versión actual de Java con búsqueda más agresiva
   async getCurrentVersion() {
     try {
       console.log("Buscando versión actual de Java...");
 
-      // Buscar en ubicaciones estándar de Java
-      const commonJavaLocations = [
-        process.env.JAVA_HOME,
-        path.join(this.javaBaseDir, "openjdk-21"),
-        path.join(this.javaBaseDir, "openjdk-17"),
-        "C:\\Program Files\\Java\\jdk-21",
-        "C:\\Program Files\\Java\\jdk-17",
-        "C:\\Program Files\\Java\\jdk1.8.0",
-        "C:\\Program Files (x86)\\Java\\jdk-21",
-        "C:\\Program Files (x86)\\Java\\jdk-17",
-      ];
-
-      for (const location of commonJavaLocations) {
-        if (location && fs.existsSync(location)) {
-          const javaExe = path.join(location, "bin", "java.exe");
-
-          if (fs.existsSync(javaExe)) {
-            try {
-              // Ejecutar java -version para obtener información
-              const { stderr: versionOutput } = await execAsync(
-                `"${javaExe}" -version`
-              );
-              const versionMatch = versionOutput.match(/version "([^"]+)"/);
-
-              if (versionMatch) {
-                const version = versionMatch[1];
-                const dirName = path.basename(location);
-
-                // Verificar si corresponde con una versión instalada
-                const installedVersions = await this.getInstalledVersions();
-                for (const installedVersion of installedVersions) {
-                  if (
-                    path.normalize(installedVersion.path).toLowerCase() ===
-                    path.normalize(location).toLowerCase()
-                  ) {
-                    installedVersion.active = true;
-                    return installedVersion;
-                  }
-                }
-
-                // Si no es una versión instalada, devolvemos la información que tenemos
-                return {
-                  version: dirName,
-                  path: location,
-                  name: `Java ${version}`,
-                  active: true,
-                };
-              }
-            } catch (error) {
-              console.error(
-                `Error al verificar Java en ${location}:`,
-                error.message
-              );
-            }
-          }
-        }
-      }
-
-      // Si llegamos aquí, intentemos buscar java.exe en el sistema
+      // Verificar primero consultando directamente java --version
       try {
-        // En Windows, usamos dir /s /b para buscar en todas las unidades
-        const command =
-          'dir /s /b "C:\\Program Files\\Java\\*java.exe" "C:\\Program Files (x86)\\Java\\*java.exe"';
-        const { stdout } = await execAsync(command);
+        const { stderr: javaVersionOutput } = await execAsync("java --version");
+        console.log("Output de java --version:", javaVersionOutput);
 
-        if (stdout) {
-          const javaExePaths = stdout.split("\r\n").filter(Boolean);
+        // Analizar la salida para determinar la versión
+        const installedVersions = await this.getInstalledVersions();
 
-          for (const javaExePath of javaExePaths) {
-            try {
-              const { stderr: versionOutput } = await execAsync(
-                `"${javaExePath}" -version`
-              );
-              const versionMatch = versionOutput.match(/version "([^"]+)"/);
+        // Extraer el número de la versión de la salida
+        const outputVersionMatch = javaVersionOutput.match(/version "([^"]+)"/);
+        if (outputVersionMatch && outputVersionMatch[1]) {
+          const outputVersion = outputVersionMatch[1];
+          console.log("Versión detectada en output:", outputVersion);
 
-              if (versionMatch) {
-                const version = versionMatch[1];
-                const jdkPath = path.dirname(path.dirname(javaExePath));
-                const dirName = path.basename(jdkPath);
-
-                return {
-                  version: dirName,
-                  path: jdkPath,
-                  name: `Java ${version}`,
-                  active: true,
-                };
-              }
-            } catch (error) {
-              console.error(
-                `Error al verificar ${javaExePath}:`,
-                error.message
-              );
+          // Buscar una versión instalada que coincida con este número de versión
+          for (const version of installedVersions) {
+            // Comparar el nombre de la versión con la salida
+            if (version.name.includes(outputVersion)) {
+              version.active = true;
+              console.log("Versión activa encontrada:", version);
+              return version;
             }
           }
         }
       } catch (error) {
-        console.error("Error al buscar java.exe en el sistema:", error.message);
+        console.log("Error al ejecutar java --version:", error);
       }
+      // Si no se puede determinar por el comando, verificar JAVA_HOME
+      const { stdout: javaHome } = await execAsync("echo %JAVA_HOME%");
+      const trimmedJavaHome = javaHome.trim();
 
-      // Como último recurso, intentemos usar la versión que el usuario acaba de activar
-      const recentlyActivated = global.lastActivatedJava;
-      if (recentlyActivated) {
+      if (trimmedJavaHome) {
         const installedVersions = await this.getInstalledVersions();
-        const match = installedVersions.find(
-          (v) => v.version === recentlyActivated
-        );
-        if (match) {
-          match.active = true;
-          return match;
+
+        for (const version of installedVersions) {
+          if (
+            path.normalize(version.path).toLowerCase() ===
+            path.normalize(trimmedJavaHome).toLowerCase()
+          ) {
+            version.active = true;
+            console.log("Versión actual detectada por JAVA_HOME:", version);
+            return version;
+          }
         }
       }
 
-      return null;
+      // Resto de la función actual...
     } catch (error) {
       console.error("Error general al obtener versión actual:", error);
       return null;
@@ -556,6 +483,7 @@ class JavaManager {
   }
 
   // Establecer una versión como la actual
+  // En javaManager.cjs - Función setVersion mejorada
   async setVersion(versionId) {
     try {
       const installedVersions = await this.getInstalledVersions();
@@ -571,39 +499,32 @@ class JavaManager {
 
       console.log(`Estableciendo Java ${versionId} como versión actual...`);
 
-      // 1. Modificar JAVA_HOME a nivel de usuario
+      // 1. Modificar JAVA_HOME a nivel de usuario (sin /M)
       const command = `setx JAVA_HOME "${targetVersion.path}"`;
       await execAsync(command);
 
-      // 2. Actualizar PATH para incluir bin EXPLÍCITAMENTE
+      // 2. Actualizar PATH para incluir bin explícitamente
       const binPath = path.join(targetVersion.path, "bin");
       const { stdout: currentPath } = await execAsync("echo %PATH%");
 
-      // Comprobar si hay otras rutas de Java en el PATH
+      // Eliminar otras rutas de Java en el PATH si existen
       const javaPathsRegex =
-        /[A-Z]:\\(?:Program Files\\Java|Users\\[^\\]+\\\.jdks)\\[^\\]+\\bin/gi;
-      const javaPathsInPath = currentPath.match(javaPathsRegex) || [];
+        /[A-Z]:\\(?:Program Files\\Java|Users\\[^\\]+\\\.jdks)\\[^\\]+\\bin;?/gi;
+      let newPath = currentPath.replace(javaPathsRegex, "");
 
-      let newPath = currentPath;
+      // Añadir la nueva ruta al inicio
+      newPath = `${binPath};${newPath}`;
 
-      // Si hay otras rutas de Java, reemplazar la primera con la nueva
-      if (javaPathsInPath.length > 0) {
-        newPath = newPath.replace(javaPathsInPath[0], binPath);
-      } else {
-        // Si no hay otras rutas de Java, añadir la nueva al inicio
-        newPath = `${binPath};${newPath}`;
-      }
-
-      // Usar setx para actualizar PATH a nivel de usuario
       const pathUpdateCommand = `setx PATH "${newPath}"`;
       await execAsync(pathUpdateCommand);
 
-      // También agregar al PATH del proceso actual
+      // 3. También agregar al PATH del proceso actual
       process.env.PATH = `${binPath};${process.env.PATH}`;
+      process.env.JAVA_HOME = targetVersion.path;
 
       return {
         success: true,
-        message: `Java ${targetVersion.name} establecido como versión actual`,
+        message: `Java ${targetVersion.name} establecido como versión actual. Es posible que necesites reiniciar la línea de comandos para ver los cambios.`,
         needsRestart: true,
       };
     } catch (error) {

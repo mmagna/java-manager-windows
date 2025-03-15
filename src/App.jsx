@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import CurrentVersion from './components/CurrentVersion/CurrentVersion';
-import JavaVersionList from './components/JavaVersionList/JavaVersionList';
-import InstallVersion from './components/InstallVersion/InstallVersion';
-import LanguageSelector from './components/LanguageSelector/LanguageSelector';
+import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import CurrentVersion from "./components/CurrentVersion/CurrentVersion";
+import JavaVersionList from "./components/JavaVersionList/JavaVersionList";
+import InstallVersion from "./components/InstallVersion/InstallVersion";
+import LanguageSelector from "./components/LanguageSelector/LanguageSelector";
 function App() {
   const { t } = useTranslation();
   const [installedVersions, setInstalledVersions] = useState([]);
@@ -13,16 +13,12 @@ function App() {
 
   useEffect(() => {
     // Mostrar mensaje de bienvenida solo la primera vez
-    const firstTime = localStorage.getItem('firstTimeVisit') !== 'false';
+    const firstTime = localStorage.getItem("firstTimeVisit") !== "false";
     if (firstTime) {
-      showNotification(
-        t('notifications.welcome'),
-        'info',
-        8000
-      );
-      localStorage.setItem('firstTimeVisit', 'false');
+      showNotification(t("notifications.welcome"), "info", 8000);
+      localStorage.setItem("firstTimeVisit", "false");
     }
-    
+
     loadData();
   }, [t]);
 
@@ -81,6 +77,7 @@ function App() {
     }
   }
 
+  // En App.jsx
   async function handleSetVersion(versionId) {
     try {
       if (window.electronAPI) {
@@ -92,27 +89,16 @@ function App() {
             "success",
             result.needsRestart ? 8000 : 5000
           );
-          await loadData(); // Recargar datos
+
+          // Esperar unos segundos más antes de recargar los datos
+          setTimeout(async () => {
+            await loadData(); // Recargar datos después de un retraso
+          }, 3000);
         } else {
           showNotification(result.message, "error");
         }
       } else {
-        // Simulación en desarrollo
-        showNotification("Versión cambiada (simulación)", "success");
-
-        // Simulamos cambiar la versión activa
-        const newVersions = installedVersions.map((v) => ({
-          ...v,
-          active: v.version === versionId,
-        }));
-
-        setInstalledVersions(newVersions);
-        const newActive = installedVersions.find(
-          (v) => v.version === versionId
-        );
-        if (newActive) {
-          setCurrentVersion(newActive);
-        }
+        // Código de simulación...
       }
     } catch (error) {
       showNotification("Error al cambiar versión: " + error.message, "error");
@@ -198,7 +184,7 @@ function App() {
   return (
     <div className="app-container">
       <header className="app-header">
-        <h1>{t('app.title')}</h1>
+        <h1>{t("app.title")}</h1>
         <LanguageSelector />
       </header>
 
@@ -210,16 +196,13 @@ function App() {
 
       <main className="app-content">
         <div className="app-section">
-          <h2>{t('sections.currentVersion')}</h2>
-          <CurrentVersion 
-            currentVersion={currentVersion} 
-            loading={loading} 
-          />
+          <h2>{t("sections.currentVersion")}</h2>
+          <CurrentVersion currentVersion={currentVersion} loading={loading} />
         </div>
 
         <div className="app-section">
-          <h2>{t('sections.installedVersions')}</h2>
-          <JavaVersionList 
+          <h2>{t("sections.installedVersions")}</h2>
+          <JavaVersionList
             versions={installedVersions}
             onSetVersion={handleSetVersion}
             onUninstallVersion={handleUninstallVersion}
@@ -228,10 +211,8 @@ function App() {
         </div>
 
         <div className="app-section">
-          <h2>{t('sections.installNewVersion')}</h2>
-          <InstallVersion 
-            onInstallVersion={handleInstallVersion} 
-          />
+          <h2>{t("sections.installNewVersion")}</h2>
+          <InstallVersion onInstallVersion={handleInstallVersion} />
         </div>
       </main>
     </div>

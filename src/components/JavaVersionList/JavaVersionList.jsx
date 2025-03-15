@@ -11,26 +11,25 @@ function JavaVersionList({
   const [activatingVersion, setActivatingVersion] = useState(null);
 
   if (loading) {
-    return <div className="loading">{t('versionList.loading')}</div>;
+    return <div className="loading">{t("versionList.loading")}</div>;
   }
 
   if (!versions || versions.length === 0) {
-    return (
-      <div className="empty-list">
-        {t('versionList.noVersions')}
-      </div>
-    );
+    return <div className="empty-list">{t("versionList.noVersions")}</div>;
   }
 
+  // En el componente JavaVersionList.jsx
   const handleActivate = async (versionId) => {
     setActivatingVersion(versionId);
     try {
       await onSetVersion(versionId);
+    } catch (error) {
+      console.error("Error al activar la versión:", error);
     } finally {
-      // Dar un pequeño retraso para mejor UX
+      // Dar un retraso más largo para que el sistema termine de configurar Java
       setTimeout(() => {
         setActivatingVersion(null);
-      }, 1000);
+      }, 3000);
     }
   };
 
@@ -54,21 +53,24 @@ function JavaVersionList({
               >
                 {activatingVersion === version.version ? (
                   <span>
-                    <span className="spinner-small"></span> {t('versionList.activating')}
+                    <span className="spinner-small"></span>{" "}
+                    {t("versionList.activating")}
                   </span>
                 ) : (
-                  t('versionList.activate')
+                  t("versionList.activate")
                 )}
               </button>
             ) : (
-              <div className="version-active-indicator">{t('versionList.active')}</div>
+              <div className="version-active-indicator">
+                {t("versionList.active")}
+              </div>
             )}
             <button
               onClick={() => onUninstallVersion(version.version)}
               className="btn btn-danger"
               disabled={version.active || activatingVersion !== null}
             >
-              {t('versionList.uninstall')}
+              {t("versionList.uninstall")}
             </button>
           </div>
         </div>
