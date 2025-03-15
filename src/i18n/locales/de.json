@@ -19,6 +19,7 @@
       "noVersions": "Keine Java-Versionen gefunden",
       "activate": "Aktivieren",
       "active": "Aktiv",
+      "activating": "Aktivierung...",
       "uninstall": "Deinstallieren"
     },
     "installVersion": {

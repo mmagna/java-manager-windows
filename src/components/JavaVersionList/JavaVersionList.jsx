@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 function JavaVersionList({
@@ -8,6 +8,7 @@ function JavaVersionList({
   loading,
 }) {
   const { t } = useTranslation();
+  const [activatingVersion, setActivatingVersion] = useState(null);
 
   if (loading) {
     return <div className="loading">{t('versionList.loading')}</div>;
@@ -20,6 +21,18 @@ function JavaVersionList({
       </div>
     );
   }
+
+  const handleActivate = async (versionId) => {
+    setActivatingVersion(versionId);
+    try {
+      await onSetVersion(versionId);
+    } finally {
+      // Dar un pequeño retraso para mejor UX
+      setTimeout(() => {
+        setActivatingVersion(null);
+      }, 1000);
+    }
+  };
 
   return (
     <div className="version-list">
@@ -35,10 +48,17 @@ function JavaVersionList({
           <div className="version-actions">
             {!version.active ? (
               <button
-                onClick={() => onSetVersion(version.version)}
+                onClick={() => handleActivate(version.version)}
                 className="btn btn-primary"
+                disabled={activatingVersion === version.version}
               >
-                {t('versionList.activate')}
+                {activatingVersion === version.version ? (
+                  <span>
+                    <span className="spinner-small"></span> {t('versionList.activating')}
+                  </span>
+                ) : (
+                  t('versionList.activate')
+                )}
               </button>
             ) : (
               <div className="version-active-indicator">{t('versionList.active')}</div>
@@ -46,7 +66,7 @@ function JavaVersionList({
             <button
               onClick={() => onUninstallVersion(version.version)}
               className="btn btn-danger"
-              disabled={version.active}
+              disabled={version.active || activatingVersion !== null}
             >
               {t('versionList.uninstall')}
             </button>

@@ -21,6 +21,7 @@
     "path": "Path",
     "activate": "Activate",
     "active": "Active",
+    "activating": "Activating...",
     "uninstall": "Uninstall"
   },
   "installVersion": {

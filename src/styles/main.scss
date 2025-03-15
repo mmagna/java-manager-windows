@@ -71,20 +71,37 @@
 }
 
 .language-selector {
-    margin-left: auto;
-    margin-bottom: $spacing-md;
-    
-    .language-select {
-      padding: $spacing-xs $spacing-sm;
-      border-radius: $border-radius-sm;
-      border: 1px solid $border-color;
-      background-color: $card-bg;
-      font-size: $font-size-sm;
-      cursor: pointer;
-      
-      &:focus {
-        outline: none;
-        border-color: $accent;
-      }
+  margin-left: auto;
+  margin-bottom: $spacing-md;
+
+  .language-select {
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $border-radius-sm;
+    border: 1px solid $border-color;
+    background-color: $card-bg;
+    font-size: $font-size-sm;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+      border-color: $accent;
     }
   }
+}
+
+.spinner-small {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s linear infinite;
+  margin-right: 6px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

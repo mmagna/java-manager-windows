@@ -186,13 +186,15 @@ class JavaManager {
       // Obtener el JAVA_HOME del sistema
       const { stdout } = await execAsync("echo %JAVA_HOME%");
       const javaHome = stdout.trim();
-  
+
       // Normalizar las rutas para comparación (eliminar barras finales, convertir a minúsculas)
       const normalizedJavaHome = javaHome.toLowerCase().replace(/\\+$/, "");
       const normalizedPath = javaPath.toLowerCase().replace(/\\+$/, "");
-  
-      console.log(`Comparando rutas: ${normalizedJavaHome} vs ${normalizedPath}`);
-  
+
+      console.log(
+        `Comparando rutas: ${normalizedJavaHome} vs ${normalizedPath}`
+      );
+
       // Comprobar si las rutas normalizadas coinciden
       return normalizedJavaHome === normalizedPath;
     } catch (error) {
@@ -554,7 +556,6 @@ class JavaManager {
   }
 
   // Establecer una versión como la actual
-  // Establecer una versión como la actual
   async setVersion(versionId) {
     try {
       const installedVersions = await this.getInstalledVersions();
@@ -574,76 +575,31 @@ class JavaManager {
       const command = `setx JAVA_HOME "${targetVersion.path}"`;
       await execAsync(command);
 
-      // 2. Actualizar PATH para incluir bin
+      // 2. Actualizar PATH para incluir bin EXPLÍCITAMENTE
       const binPath = path.join(targetVersion.path, "bin");
       const { stdout: currentPath } = await execAsync("echo %PATH%");
 
-      if (!currentPath.includes(binPath)) {
-        // Comprobar si hay otras rutas de Java en el PATH
-        const javaPathsRegex =
-          /[A-Z]:\\(?:Program Files\\Java|Users\\[^\\]+\\\.jdks)\\[^\\]+\\bin/gi;
-        const javaPathsInPath = currentPath.match(javaPathsRegex) || [];
+      // Comprobar si hay otras rutas de Java en el PATH
+      const javaPathsRegex =
+        /[A-Z]:\\(?:Program Files\\Java|Users\\[^\\]+\\\.jdks)\\[^\\]+\\bin/gi;
+      const javaPathsInPath = currentPath.match(javaPathsRegex) || [];
 
-        let newPath = currentPath;
+      let newPath = currentPath;
 
-        // Si hay otras rutas de Java, reemplazar la primera con la nueva
-        if (javaPathsInPath.length > 0) {
-          newPath = newPath.replace(javaPathsInPath[0], binPath);
-        } else {
-          // Si no hay otras rutas de Java, añadir la nueva al inicio
-          newPath = `${binPath};${newPath}`;
-        }
-
-        const pathUpdateCommand = `setx PATH "${newPath}"`;
-        await execAsync(pathUpdateCommand);
+      // Si hay otras rutas de Java, reemplazar la primera con la nueva
+      if (javaPathsInPath.length > 0) {
+        newPath = newPath.replace(javaPathsInPath[0], binPath);
+      } else {
+        // Si no hay otras rutas de Java, añadir la nueva al inicio
+        newPath = `${binPath};${newPath}`;
       }
 
-      // 3. Actualizar también el proceso actual (solo para nuestra aplicación)
-      process.env.JAVA_HOME = targetVersion.path;
+      // Usar setx para actualizar PATH a nivel de usuario
+      const pathUpdateCommand = `setx PATH "${newPath}"`;
+      await execAsync(pathUpdateCommand);
 
-      // 4. Para asegurarnos que el cambio sea efectivo, usamos PowerShell para crear un script de prueba
-      const testScript = path.join(os.tmpdir(), "test-java-change.ps1");
-      const testContent = `
-$env:JAVA_HOME = "${targetVersion.path.replace(/\\/g, "\\\\")}"
-$env:Path = "${binPath.replace(/\\/g, "\\\\")};$env:Path"
-& "${path
-        .join(targetVersion.path, "bin", "java.exe")
-        .replace(/\\/g, "\\\\")}" -version
-Write-Host "Java actualizado a: $env:JAVA_HOME"
-    `;
-
-      fs.writeFileSync(testScript, testContent);
-
-      try {
-        // Ejecutar el script para verificar que el cambio funciona
-        await execAsync(
-          `powershell -ExecutionPolicy Bypass -File "${testScript}"`
-        );
-      } catch (error) {
-        console.warn("Error al ejecutar script de prueba:", error.message);
-      }
-
-      // 5. Marcar esta versión como activa y las demás como inactivas
-      for (const version of installedVersions) {
-        version.active = version.version === versionId;
-      }
-
-      // 6. Almacenar la última versión activada
-      global.lastActivatedJava = versionId;
-
-      // 7. Si estamos en Windows, forzar una actualización de variables de entorno
-      try {
-        await execAsync(
-          "powershell -Command \"[Environment]::SetEnvironmentVariable('JAVA_HOME', '" +
-            targetVersion.path +
-            "', 'User')\""
-        );
-      } catch (error) {
-        console.warn(
-          "Error al actualizar variable de entorno con PowerShell:",
-          error.message
-        );
-      }
+      // También agregar al PATH del proceso actual
+      process.env.PATH = `${binPath};${process.env.PATH}`;
 
       return {
         success: true,

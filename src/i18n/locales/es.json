@@ -21,6 +21,7 @@
     "path": "Ruta",
     "activate": "Activar",
     "active": "Activa",
+    "activating": "Activando...",
     "uninstall": "Desinstalar"
   },
   "installVersion": {
