@@ -6,7 +6,7 @@
     "email": "moisesmagna@gmail.com"
   },
   "private": true,
-  "version": "2.0.6",
+  "version": "2.0.7",
   "type": "commonjs",
   "scripts": {
     "dev": "vite",
@@ -67,8 +67,7 @@
       "artifactName": "${productName}-setup-${version}.${ext}",
       "deleteAppDataOnUninstall": false,
       "perMachine": false,
-      "runAfterFinish": true,
-      "include": "installer.nsh"
+      "runAfterFinish": true
     },
     "msi": {
       "artifactName": "${productName}-installer-${version}.${ext}"
